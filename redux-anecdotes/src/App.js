@@ -1,9 +1,12 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { VoteFor } from "./reducers/anecdoteReducer";
+import { VoteFor, CreateAnecdote } from "./reducers/anecdoteReducer";
 
 const App = () => {
-  const anecdotes = useSelector((state) => state);
+  const anecdotesSortedByLikes = useSelector((state) =>
+    state.sort((a, b) => a.votes < b.votes)
+  );
+
   const dispatch = useDispatch();
 
   const vote = (id) => {
@@ -11,10 +14,18 @@ const App = () => {
     dispatch(VoteFor(id));
   };
 
+  const addAnecdote = (event) => {
+    event.preventDefault();
+    const content = event.target.anecdote.value;
+    event.target.anecdote.value = "";
+    dispatch(CreateAnecdote(content));
+    console.log(content);
+  };
+
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map((anecdote) => (
+      {anecdotesSortedByLikes.map((anecdote) => (
         <div key={anecdote.id}>
           <div>{anecdote.content}</div>
           <div>
@@ -24,9 +35,9 @@ const App = () => {
         </div>
       ))}
       <h2>create new</h2>
-      <form>
+      <form onSubmit={addAnecdote}>
         <div>
-          <input />
+          <input name="anecdote" />
         </div>
         <button>create</button>
       </form>

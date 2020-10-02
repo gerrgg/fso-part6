@@ -55,4 +55,15 @@ export const VoteFor = (id) => {
   };
 };
 
+export const CreateAnecdote = (content) => {
+  return {
+    type: "NEW_ANECDOTE",
+    data: {
+      content,
+      votes: 0,
+      id: getId(),
+    },
+  };
+};
+
 export default reducer;
