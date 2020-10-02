@@ -19,7 +19,7 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject);
 
-const reducer = (state = initialState, action) => {
+const anecdoteReducer = (state = initialState, action) => {
   // setup swtich statchments for dealing with object created below
   switch (action.type) {
     case "VOTE": {
@@ -66,4 +66,4 @@ export const CreateAnecdote = (content) => {
   };
 };
 
-export default reducer;
+export default anecdoteReducer;

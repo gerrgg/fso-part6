@@ -1,7 +1,7 @@
 import anecdoteReducer from "./anecdoteReducer";
 import deepFreeze from "deep-freeze";
 
-describe("noteReducer", () => {
+describe("anecdoteReducer", () => {
   test("returns new state with action VOTE", () => {
     const state = [
       {
