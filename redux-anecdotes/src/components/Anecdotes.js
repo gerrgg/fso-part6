@@ -1,19 +1,33 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { VoteFor } from "../reducers/anecdoteReducer";
+import Filter from "../components/Filter";
 import {
   setNotification,
   removeNotification,
 } from "../reducers/notificationReducer";
 
 const Anecdotes = () => {
-  const anecdotesSortedByLikes = useSelector((state) =>
-    state.anecdotes.sort((a, b) => a.votes < b.votes)
-  );
+  const anecdotesSortedByLikes = useSelector((state) => {
+    // filter out anecdotes if set else show all
+    const anecdotes = state.filter
+      ? state.anecdotes.filter((anecdote) =>
+          anecdote.content.includes(state.filter)
+        )
+      : state.anecdotes;
 
-  return anecdotesSortedByLikes.map((anecdote) => (
-    <Anecdote key={anecdote.id} anecdote={anecdote} />
-  ));
+    // sort by likes
+    return anecdotes.sort((a, b) => a.votes < b.votes);
+  });
+
+  return (
+    <div>
+      <Filter />
+      {anecdotesSortedByLikes.map((anecdote) => (
+        <Anecdote key={anecdote.id} anecdote={anecdote} />
+      ))}
+    </div>
+  );
 };
 
 const Anecdote = ({ anecdote }) => {
