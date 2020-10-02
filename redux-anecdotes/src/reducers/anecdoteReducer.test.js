@@ -27,4 +27,27 @@ describe("noteReducer", () => {
 
     expect(updatedAnecdote.votes).toBe(1);
   });
+
+  test("returns a new state with action CREATE_ANECDOTE with the passed object", () => {
+    const state = [];
+
+    const action = {
+      type: "NEW_ANECDOTE",
+      data: {
+        id: 1,
+        content: "New anecdotes are easy to create",
+        votes: 0,
+      },
+    };
+
+    deepFreeze(state);
+
+    const newState = anecdoteReducer(state, action);
+
+    expect(newState).toHaveLength(1);
+
+    const newestAnecdote = newState.find((n) => n.id === action.data.id);
+
+    expect(newestAnecdote).toEqual(action.data);
+  });
 });
