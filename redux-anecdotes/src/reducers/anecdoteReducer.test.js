@@ -2,6 +2,25 @@ import anecdoteReducer from "./anecdoteReducer";
 import deepFreeze from "deep-freeze";
 
 describe("anecdoteReducer", () => {
+  test("returns state when initialized with anecdotes", () => {
+    const state = [];
+    const action = {
+      type: "INIT_ANECDOTES",
+      data: [
+        {
+          content: "If it hurts, do it more often",
+          id: "47145",
+          votes: 0,
+        },
+      ],
+    };
+
+    deepFreeze(state);
+    const newState = anecdoteReducer(state, action);
+    expect(newState).toHaveLength(1);
+    expect(newState).toEqual(action.data);
+  });
+
   test("returns new state with action VOTE", () => {
     const state = [
       {
