@@ -2,8 +2,6 @@ import anecdoteReducer from "./anecdoteReducer";
 import deepFreeze from "deep-freeze";
 
 describe("anecdoteReducer", () => {
-  test("anecdotes initializes with passed array", () => {});
-
   test("returns new state with action VOTE", () => {
     const state = [
       {

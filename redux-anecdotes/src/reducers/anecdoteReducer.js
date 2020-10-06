@@ -50,7 +50,7 @@ export const CreateAnecdote = (content) => {
 export const initializeAnecdotes = (anecdotes) => {
   return {
     type: "INIT_ANECDOTES",
-    anecdotes,
+    data: anecdotes,
   };
 };
 
