@@ -7,14 +7,17 @@ describe("notificationReducer", () => {
 
     const action = {
       type: "SET_NOTIFICATION",
-      notification: "Setting notifications should be easy",
+      data: {
+        notification: "Setting notifications should be easy",
+        timeout: 10,
+      },
     };
 
     deepFreeze(state);
 
     const notification = notificationReducer(state, action);
 
-    expect(notification).toMatch(action.notification);
+    expect(notification).toMatch(action.data.notification);
   });
 
   test("REMOVE_NOTIFICATION sets the state.notification to null", () => {

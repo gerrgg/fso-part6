@@ -4,20 +4,33 @@ const notificationReducer = (state = null, action) => {
 
   switch (action.type) {
     case "SET_NOTIFICATION": {
-      return action.notification;
+      console.log(action);
+
+      const timeout = action.data.timeout * 100;
+
+      setTimeout(() => {
+        return null;
+      }, timeout);
+
+      return action.data.notification;
     }
+
     case "REMOVE_NOTIFICATION": {
       return null;
     }
+
     default:
       return state;
   }
 };
 
-export const setNotification = (notification) => {
+export const setNotification = (notification, timeout = 10) => {
   return {
     type: "SET_NOTIFICATION",
-    notification,
+    data: {
+      notification,
+      timeout,
+    },
   };
 };
 

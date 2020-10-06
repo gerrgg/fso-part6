@@ -1,3 +1,5 @@
+import anecdoteService from "../services/anecdotes";
+
 const anecdoteReducer = (state = [], action) => {
   // setup swtich statchments for dealing with object created below
   switch (action.type) {
@@ -18,6 +20,12 @@ const anecdoteReducer = (state = [], action) => {
       );
     }
 
+    case "REMOVE_ANECDOTE": {
+      const id = action.data.id;
+
+      return state.filter((anecdote) => anecdote.id !== id);
+    }
+
     case "NEW_ANECDOTE":
       return [...state, action.data];
 
@@ -29,25 +37,51 @@ const anecdoteReducer = (state = [], action) => {
   }
 };
 
-export const VoteFor = (id) => {
-  // create an object with keyboard and data
-  return {
-    type: "VOTE",
-    data: { id },
+export const VoteFor = (id, objectToUpdate) => {
+  return async (dispatch) => {
+    const updatedObject = {
+      ...objectToUpdate,
+      votes: objectToUpdate.votes + 1,
+    };
+
+    await anecdoteService.update(id, updatedObject);
+
+    dispatch({
+      type: "VOTE",
+      data: { id },
+    });
   };
 };
 
-export const CreateAnecdote = (anecdote) => {
-  return {
-    type: "NEW_ANECDOTE",
-    data: anecdote,
+export const CreateAnecdote = (content) => {
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteService.createNew(content);
+    dispatch({
+      type: "NEW_ANECDOTE",
+      data: newAnecdote,
+    });
   };
 };
 
-export const initializeAnecdotes = (anecdotes) => {
-  return {
-    type: "INIT_ANECDOTES",
-    data: anecdotes,
+export const initializeAnecdotes = () => {
+  return async (dispatch) => {
+    const anecdotes = await anecdoteService.getAll();
+
+    dispatch({
+      type: "INIT_ANECDOTES",
+      data: anecdotes,
+    });
+  };
+};
+
+export const removeAnecdote = (id) => {
+  return async (dispatch) => {
+    await anecdoteService.remove(id);
+
+    dispatch({
+      type: "REMOVE_ANECDOTE",
+      data: { id },
+    });
   };
 };
 
